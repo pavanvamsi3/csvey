@@ -22,7 +22,8 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
         "practo/buzz-bundle": "1.0.1",
-        "twilio/sdk" : "*"
+        "twilio/sdk" : "*",
+        "friendsofsymfony/rest-bundle": "^2.1"
     },
     "repositories": [ {
         "type": "git",
