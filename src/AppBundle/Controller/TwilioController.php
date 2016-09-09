@@ -26,4 +26,24 @@ class TwilioController extends Controller
 
         return new Response($response);
     }
+
+    /**
+     * Function to fetch location of a number
+     *
+     */
+    private function getPhoneDetails($number)
+    {
+        $base_url = "http://apilayer.net/api/validate?";
+        $data = array(
+            $access_key => "39694ac085e4af5b2922991ae2b16a1e",
+            $number => $number,
+            $country_code => "IN",
+            $format => 1
+        }
+        $params = http_build_query($data);
+        $url = $base_url . $params;
+        $data = file_get_contents($url);
+
+        return new Response($data['location']);
+    }
 }
