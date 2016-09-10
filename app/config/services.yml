@@ -12,3 +12,8 @@ services:
         class: AppBundle\Manager\HttpManager
         calls:
             - [ setRequest, [ '@?request=' ] ]
+
+    csvey_api.survey_manager:
+      class: AppBundle\Manager\SurveyManager
+      arguments:
+        - @doctrine
