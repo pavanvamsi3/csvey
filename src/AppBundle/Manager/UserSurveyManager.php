@@ -53,18 +53,18 @@ class UserSurveyManager
             $userSurvey->setSurveyId($survey);
             $userSurvey->setUserId($user);
             $balance = $user->getBalance();
-            if ($balance == 0 || $balance == null) {
+            if ($balance === null) {
                 $user->setBalance(0);
             } else {
                 $user->setBalance($balance + 2);
             }
-
             $this->em->persist($userSurvey);
             $this->em->persist($user);
             $this->em->flush();
         }
 
         return $userSurvey;
+
     }
 
     /**
