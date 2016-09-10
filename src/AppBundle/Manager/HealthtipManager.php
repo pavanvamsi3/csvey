@@ -56,6 +56,8 @@ class HealthtipManager
     */
     public function getHealthTip($age)
     {
+        $age = $age < 18 ? 18 : $age;
+        $age = $age > 50 ? 50 : $age;
         $htRepo = $this->doctrine->getManager()
             ->getRepository('AppBundle:Healthtip');
         $healthTips = $htRepo->retreiveByAge($age);
