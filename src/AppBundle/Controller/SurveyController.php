@@ -15,6 +15,32 @@ use Twilio\Twiml;
 class SurveyController extends Controller
 {
     /**
+     * @Route("/surveyquestions/{company}", name="get_survey")
+     *
+     * @return View
+     */
+    public function getSurveyAction($company)
+    {
+        $surveyManager = $this->get('csvey_api.survey_manager');
+        $survey = $surveyManager->loadQuestions($company);
+
+        return new Response(json_encode($survey));
+    }
+
+    /**
+     * @Route("/surveyoptions/{surveyId}", name="get_option")
+     *
+     * @return View
+     */
+    public function getOptionAction($surveyId)
+    {
+        $surveyManager = $this->get('csvey_api.survey_manager');
+        $options = $surveyManager->loadOptions($surveyId);
+
+        return new Response(json_encode($options));
+    }
+
+    /**
      * @Route("/survey", name="post_survey")
      *
      * @return View
@@ -51,6 +77,9 @@ class SurveyController extends Controller
         }
 
         $response = new Twiml();
+        $this->doctrine = $doctrine;
+        $this->em = $this->doctrine->getManager();
+        $this->em->refresh($user);
         if ($surveyResponse == "success") {
             $response->say("Thanks for your time, your csvey balance is updated to 10.
             You'll get a free recharge when it reaches ten rupees.");   
