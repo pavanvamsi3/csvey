@@ -43,7 +43,7 @@ class TwilioMessageHandlingManager
             case "2":
                 if (isset($queryParams['Called'])) {
                     $user = $this->userManager->loadByPhoneNumber($queryParams['Called']);
-                    if ($user->getAge() != -1) {
+                    if ($user->getAge() == -1) {
                         $response->gather(array('action' => '/ageinformation', "method" => "POST",
                             "numDigits" => 2))->say("Please Provide your age by pressing number keypad
                         so that we can serve you the best health tips.", array("language" => "en-IN"));
