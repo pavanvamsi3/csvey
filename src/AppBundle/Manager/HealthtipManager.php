@@ -43,7 +43,8 @@ class HealthtipManager
         try {
             $healthTip = new Healthtip();
             $healthTip->setTip($requestParams['tip']);
-            $healthTip->setAgeRange($requestParams['age_range']);
+            $healthTip->setMinAge($requestParams['min_age']);
+            $healthTip->setMaxAge($requestParams['max_age']);
             $this->entityManager->persist($healthTip);
             $this->entityManager->flush();
         } catch (\Exception $e) {

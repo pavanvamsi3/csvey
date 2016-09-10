@@ -65,7 +65,7 @@ class HealthtipsCommand extends ContainerAwareCommand
             return;
         }
         fclose($handle);
-        $keys = array('tip', 'age_range');
+        $keys = array('tip', 'min_age', 'max_age');
         foreach ($healthTips as $healthTip) {
             $postData = array_combine($keys, $healthTip);
             $healthTipsManager->add(json_encode($postData));
