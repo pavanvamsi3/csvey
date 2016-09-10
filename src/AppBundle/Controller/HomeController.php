@@ -23,6 +23,6 @@ class HomeController extends Controller
         $response = new Twiml();
         $response->say('Hello Patlola');
         $response->play('https://api.twilio.com/cowbell.mp3', array("loop" => 5));
-        return $response;
+        return new Response($response);
     }
 }
