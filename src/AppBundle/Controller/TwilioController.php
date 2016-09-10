@@ -73,15 +73,4 @@ class TwilioController extends Controller
             return new Response($response);
         }
     }
-
-    /**
-     * @Route("/news", name="news")
-     *
-     */
-    public function newsAction()
-    {
-        $newsManager = $this->get('news_manager');
-        $newsText = $newsManager->getNews();
-        return new Response();
-    }
 }
