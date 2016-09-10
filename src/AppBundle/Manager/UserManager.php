@@ -44,9 +44,6 @@ class UserManager
             if (!$user) {
                 $user = new User();
                 $user->setPhone($requestParams['Called']);
-                if (isset($requestParams['age'])) {
-                    $user->setAge($requestParams['age']);
-                }
                 $this->em->persist($user);
                 $this->em->flush();
             }
