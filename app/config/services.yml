@@ -12,3 +12,10 @@ services:
         class: AppBundle\Manager\HttpManager
         calls:
             - [ setRequest, [ '@?request=' ] ]
+
+    twilio_calling_manager:
+        class: AppBundle\Manager\TwilioCallingManager
+        arguments:
+            - %twilio_ssid%
+            - %twilio_secret%
+            - %twilio_verified_number%
