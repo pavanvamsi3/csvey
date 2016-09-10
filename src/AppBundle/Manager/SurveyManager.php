@@ -84,7 +84,7 @@ class SurveyManager
      */
     public function load($surveyId)
     {
-        return $this->em->getRepository('AppBundle:Survey')
+        return $this->entityManager->getRepository('AppBundle:Survey')
             ->findOneById($surveyId);
     }
 }
