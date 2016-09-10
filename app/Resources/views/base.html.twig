@@ -118,50 +118,44 @@
     </style>
 
     <script type="text/javascript">
-        
-        function submitForm() { 
-            console.log('here man');
 
+        function submitForm() { 
             var frm = $("#surveyForm");
             var data = JSON.stringify(frm.serializeArray());
             console.log(data);
 
             var elements = document.querySelectorAll("#surveyForm input[type=text]");
-                var questions=[];
-                for (var i = 0, element; element = elements[i];i++) {
-                    if (element.value === "" && element.style.display != 'none') {
-                        if(element.name.charAt(0) in questions) {
-                            if(element.name.charAt(1) === 'q' && element.value) {
-                                questions[parseInt(element.name.charAt(0), 10)].question = element.value;
-                            } else if(element.name.charAt(1) === 'c' && element.value) {
-                                questions[parseInt(element.name.charAt(0), 10)].options.push(element.value);
-                            } else if (element.name.charAt(1) === 't' && element.value) {
-                                questions[parseInt(element.name.charAt(0), 10)].type.push(element.value);
-                            }
-                            
-                        } else {
-                            questions[parseInt(element.name.charAt(0),10)] = {
-                                'question':'',
-                                'options': [],
-                                'type':''
-                            };
+            var questions=[];
+            for (var i = 0, element; element = elements[i];i++) {
+                if (element.value === "" && element.style.display != 'none') {
+                    if(element.name.charAt(0) in questions) {
+                        if(element.name.charAt(1) === 'q' && element.value) {
+                            questions[parseInt(element.name.charAt(0), 10)].question = element.value;
+                        } else if(element.name.charAt(1) === 'c' && element.value) {
+                            questions[parseInt(element.name.charAt(0), 10)].options.push(element.value);
+                        } else if (element.name.charAt(1) === 't' && element.value) {
+                            questions[parseInt(element.name.charAt(0), 10)].type.push(element.value);
                         }
-                       
+                        
+                    } else {
+                        questions[parseInt(element.name.charAt(0),10)] = {
+                            'question':'',
+                            'options': [],
+                            'type':''
+                        };
                     }
+                   
                 }
+            }
 
-                var surveyJsonObject = {};
-                surveyJsonObject.surveys = questions;
-                surveyJsonObject.company ="Practo";   
-                console.log(JSON.parse(JSON.stringify(surveyJsonObject.surveys)));
-
-            // $("#surveyForm").find("input, textarea, select") {
-
-            // };
-        }
-
-        function showQuestionType() {
-
+            var surveyJsonObject = {};
+            surveyJsonObject.surveys = questions;
+            surveyJsonObject.company ="Practo"; 
+            
+            $.ajax({type :'POST',
+                    url: "http://www.practo.local/survey", success: function(result){
+                    console.log('success');
+            }}); 
         }
 
         function showQuestion (id ,type,no) {
@@ -205,7 +199,7 @@
                 <li><a href="#">Amazon</a></li>
             </ul>
         </div> -->
-        <form id='surveyForm' method="get" novalidate>
+        <form id='surveyForm' method="post" novalidate>
             
             <div class="survey-div" id ="survey-question">
                 {% for questionId in [0,1] %}
@@ -248,7 +242,7 @@
                 {% endfor %}    
             <button class="mui-btn mui-btn--raised mui-btn--primary" type="button" id ="next-question" style="width:150px;" onclick="addQuestion()">Add question</button>    
             
-            <button type="submit" class="mui-btn mui-btn--raised" style="width:150px;" onclick="submitForm();">Submit</button>
+            <button type="submit" class="mui-btn mui-btn--raised" id="submit" style="width:150px;">Submit</button>
 
 
             </div>
