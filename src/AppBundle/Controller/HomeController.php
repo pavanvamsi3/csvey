@@ -15,10 +15,12 @@ class HomeController extends Controller
      */
     public function homeMessageHandlerAction(Request $request)
     {
+        $response = null;
         $queryParams = $this->get('request')->query->all();
         if (isset($queryParams['Digits'])) {
-            $response = new Twiml();
-            $response->say('You have pressed ' . $queryParams['Digits']);
+            $twilioMessageHandlingManager = $this->get('twilio_message_handling_manager');
+            $response = $twilioMessageHandlingManager->handleHomePage($queryParams);
+
         }
         
         return new Response($response);
