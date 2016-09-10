@@ -30,9 +30,8 @@ class SurveyManager
     {
         $this->doctrine = $doctrine;
         $this->entityManager = $this->doctrine->getManager();
-        $this->surveyRepo = $this->em->getRepository('AppBundle:Survey');
-        $this->choiceRepo = $this->em->getRepository('AppBundle:Choice');
-
+        $this->surveyRepo = $this->entityManager->getRepository('AppBundle:Survey');
+        $this->choiceRepo = $this->entityManager->getRepository('AppBundle:Choice');
     }
 
     /**
