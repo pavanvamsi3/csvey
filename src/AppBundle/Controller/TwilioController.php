@@ -18,8 +18,28 @@ class TwilioController extends Controller
      * @Route("/outbound", name="outbound_route")
      *
      */
-    public function indexAction(Request $request)
+    public function outboundAction(Request $request)
     {
+        $response = new Twiml();
+        $response->say('Hello Patlola');
+        $response->play('https://api.twilio.com/cowbell.mp3', array("loop" => 5));
+
+        return new Response($response);
+    }
+
+    /**
+     * @Route("/inbound", name="inbound_route")
+     *
+     */
+    public function inboundAction(Request $request)
+    {
+        $queryParams = $this->get('request')->query->all();
+        if (isset($queryParams['Direction']) && $queryParams['Direction'] == "inbound" &&
+            isset($queryParams['CallerCountry']) && $queryParams['CallerCountry'] == "IN" &&
+            isset($queryParams['From'])) {
+            $twilioCallingManager = $this->get('twilio_calling_manager');
+            $twilioCallingManager->makeOutBoundCall($queryParams['From']);
+        }
         $response = new Twiml();
         $response->say('Hello Patlola');
         $response->play('https://api.twilio.com/cowbell.mp3', array("loop" => 5));
