@@ -93,7 +93,7 @@ class SurveyManager
     public function getSurvey()
     {
         $surveyData = array();
-        $surveys = $this->surveyRepo->loadAll();
+        $surveys = $this->surveyRepo->findAll();
         $surveyId = mt_rand(1,count($surveys));
 
         $survey = $this->surveyRepo->findOneById($surveyId);
