@@ -39,8 +39,8 @@ class TwilioController extends Controller
     public function inboundAction(Request $request)
     {
         $queryParams = $this->get('request')->query->all();
-        if (isset($queryParams['Direction']) == "inbound" &&
-            isset($queryParams['CallerCountry'] == "IN") &&
+        if (isset($queryParams['Direction']) && $queryParams['Direction'] == "inbound" &&
+            isset($queryParams['CallerCountry']) && $queryParams['CallerCountry'] == "IN" &&
             isset($queryParams['From'])) {
             $twilioCallingManager = $this->get('twilio_calling_manager');
             $twilioCallingManager->makeOutBoundCall($queryParams['From']);
