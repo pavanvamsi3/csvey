@@ -42,7 +42,7 @@ class UserSurveyManager
             $survey = $this->surveyRepo->findOneById($surveyId);
             $user = $this->userRepo->findOneByPhone($requestParams['Called']);
             if($survey->getType() == 'multiple choice') {
-                $choices = $this->choiceRepo->findOneBySurveyId($surveyId);
+                $choices = $this->choiceRepo->findBySurveyId($surveyId);
                 if (isset($requestParams['Digits']) && $requestParams['Digits'] < 5 and $requestParams['Digits'] > 0) {
                     $requestParams['Digits'] -= 1;
                 }
