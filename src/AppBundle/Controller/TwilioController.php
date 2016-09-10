@@ -64,7 +64,7 @@ class TwilioController extends Controller
         if (isset($requestParams['Digits']) && isset($requestParams['Called'])) {
             $userManager = $this->get('csvey_api.user_manager');
             $healthTipManager = $this->get('csvey_api.health_tip_manager');
-            $userManager->updateAge($requestParams['Called'], $requestParams['Digits']);
+            $user = $userManager->updateAge($requestParams['Called'], $requestParams['Digits']);
             $response = new Twiml();
             $healthTip = $healthTipManager->getHealthTip($user->getAge());
             $response->say($healthTip, array("language" => "en-IN"));
