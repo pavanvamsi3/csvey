@@ -65,7 +65,7 @@ $(document).ready(function(){
             if (data.hasOwnProperty(key)) { // ensure it is key from data, not prototype being used
 
                 // Display the count
-                $("#langDetails").append("<li>" + key + ": " + data[key] + "</li>");
+                //$("#langDetails").append("<li>" + key + ": " + data[key] + "</li>");
 
                 var item = new Object();
                     item.key = key;
