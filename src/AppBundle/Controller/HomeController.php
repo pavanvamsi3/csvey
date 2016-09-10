@@ -16,14 +16,11 @@ class HomeController extends Controller
     public function homeMessageHandlerAction(Request $request)
     {
         $queryParams = $this->get('request')->query->all();
-        $txt = json_encode($this->get('request')->request->all());
-        $txt1 = json_encode($this->get('request')->query->all());
-        $myfile = fopen("newfile.txt", "w");
-        fwrite($myfile, $txt.$txt1);
-        fclose($myfile);
-        $response = new Twiml();
-        $response->say('Hello Patlola');
-        $response->play('https://api.twilio.com/cowbell.mp3', array("loop" => 5));
+        if (isset($queryParams['Digits'])) {
+            $response = new Twiml();
+            $response->say('You have pressed ' . $queryParams['Digits']);
+        }
+        
         return new Response($response);
     }
 }

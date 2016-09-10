@@ -25,7 +25,7 @@ class TwilioMessageManager
         $response->say('Welcome to Csvey!', array("language" => "en-IN"));
         $response->say('Answer, Listen and Earn!', array("language" => "en-IN"));
         $response->gather(array("action" => "/homemessagehandler", "timeout"=>5,
-            "method"=> "GET"))->say("Press 1 for a survey question. 
+            "method"=> "GET", "numDigits" => 1))->say("Press 1 for a survey question. 
                                     Press 2 for a health tips. 
                                     Press 3 for a news updates. 
                                     Press 4 for your current csvey balance .
