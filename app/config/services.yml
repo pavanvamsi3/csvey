@@ -13,10 +13,16 @@ services:
         calls:
             - [ setRequest, [ '@?request=' ] ]
 
-    user_survey_manager:
+    csvey_api.user_survey_manager:
         class: AppBundle\Manager\UserSurveyManager
         arguments:
             - '@doctrine'
+
+    csvey_api.survey_manager:
+      class: AppBundle\Manager\SurveyManager
+      arguments:
+        - @doctrine
+
 
     twilio_calling_manager:
         class: AppBundle\Manager\TwilioCallingManager
@@ -24,3 +30,6 @@ services:
             - %twilio_ssid%
             - %twilio_secret%
             - %twilio_verified_number%
+
+    twilio_message_manager:
+        class: AppBundle\Manager\TwilioMessageManager
