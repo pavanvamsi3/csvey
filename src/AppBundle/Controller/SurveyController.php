@@ -50,8 +50,8 @@ class SurveyController extends Controller
             $surveyUserManager->add($requestParams, $survey->getId());
         }
         $response = new Twiml();
-        $response->say("Thanks for your time, your csvey balance is updated to 10.
-            You'll get a free recharge when it reaches ten rupees.");
+        $response->say("Thanks for your time, your csvey balance is updated to " . $user->getBalance() . 
+            " You'll get a free recharge when it reaches ten rupees.");
         $response->redirect('/outbound', array("method"=> "GET"));
 
         return new Response($response);
