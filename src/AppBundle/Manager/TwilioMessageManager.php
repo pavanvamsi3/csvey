@@ -8,7 +8,7 @@ use Twilio\Twiml;
 * 
 */
 class TwilioMessageManager
-{   
+{
     private $twilio;
 
     /**
