@@ -53,4 +53,24 @@ class TwilioController extends Controller
 
         return new Response($response);
     }
+
+    /**
+     * @Route("/ageinformation", name="ageinformation")
+     *
+     */
+    public function postAgeAction(Request $request)
+    {
+        $requestParams = $this->get('request')->request->all();
+        if (isset($requestParams['Digits']) && isset($requestParams['Called'])) {
+            $userManager = $this->get('csvey_api.user_manager');
+            $healthTipManager = $this->get('csvey_api.health_tip_manager');
+            $user = $userManager->updateAge($requestParams['Called'], $requestParams['Digits']);
+            $response = new Twiml();
+            $healthTip = $healthTipManager->getHealthTip($user->getAge());
+            $response->say($healthTip, array("language" => "en-IN"));
+            $response->redirect('/outbound', array("method"=>"GET"));
+
+            return new Response($response);
+        }
+    }
 }

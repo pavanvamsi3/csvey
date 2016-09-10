@@ -56,4 +56,24 @@ class UserManager
     {
         return $this->userRepo->findOneByPhone($phoneNumber);
     }
+
+    public function updateAge($phoneNumber, $age)
+    {
+        $user = $this->loadByPhoneNumber($phoneNumber);
+        if (!$user) {
+            $user = $this->add(['Called' => $phoneNumber]);
+        }
+        
+        $user->setAge($age);
+
+        $this->em->persist($user);
+        $this->em->flush($user);
+
+        return $user;
+    }
+
+    public function refresh($user)
+    {
+        return $this->em->refresh($user);
+    }
 }

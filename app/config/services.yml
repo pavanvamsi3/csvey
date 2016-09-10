@@ -47,3 +47,11 @@ services:
         class: AppBundle\Manager\TwilioMessageHandlingManager
         arguments:
             - '@csvey_api.survey_manager'
+            - '@csvey_api.user_manager'
+            - '@csvey_api.health_tip_manager'
+            - '@news_manager'
+
+    news_manager:
+        class: AppBundle\Manager\NewsManager
+        arguments:
+            - '@http_manager'
