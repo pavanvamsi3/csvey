@@ -51,5 +51,24 @@ class HealthtipManager
             throw $e;
         }
     }
+    /**
+    * @return string
+    */
+    public function getHealthTip($age)
+    {
+        $htRepo = $this->doctrine->getManager()
+            ->getRepository('AppBundle:Healthtip');
+        $healthTips = $htRepo->retreiveByAge($age);
+        $tips = array();
+        foreach($healthTips as $healthTip) {
+            $tips[] = $healthTip->getTip();
+        }
+        end($tips);
+        $max = key($tips);
+        $randomIndex = rand(0, $max);
+        $healthTip = $tips[$randomIndex];
+
+        return $healthTip;
+    }
 
 }
