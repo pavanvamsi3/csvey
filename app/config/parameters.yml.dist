@@ -17,3 +17,7 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    twilio_ssid : AC02e66ec9c29e43d45fdece16998584ed
+    twilio_secret : f24ba83d27488b5bfb066d0410cf8bd2
+    twilio_verified_number : +12012317735
