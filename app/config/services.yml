@@ -22,7 +22,7 @@ services:
         class: AppBundle\Manager\SurveyManager
         arguments:
             - @doctrine
-    
+
     csvey_api.user_manager:
         class: AppBundle\Manager\UserManager
         arguments:
@@ -37,6 +37,11 @@ services:
 
     twilio_message_manager:
         class: AppBundle\Manager\TwilioMessageManager
+
+    csvey_api.health_tip_manager:
+      class: AppBundle\Manager\HealthtipManager
+      arguments:
+        - @doctrine
 
     twilio_message_handling_manager:
         class: AppBundle\Manager\TwilioMessageHandlingManager
