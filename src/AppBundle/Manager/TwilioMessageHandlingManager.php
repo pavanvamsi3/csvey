@@ -26,13 +26,22 @@ class TwilioMessageHandlingManager
     {
         $response = $this->twilio;
 
-        if ($queryParams['Digits'] == "1") {
-            $survey = $this->surveyManager->getSurvey();
-            $response->gather(array('action' => "/survey/".$survey['id'], "method" => "POST",
+        switch ($queryParams['Digits']) {
+            case "1":
+                $survey = $this->surveyManager->getSurvey();
+                $response->gather(array('action' => "/survey/".$survey['id'], "method" => "POST",
                 "numDigits" => 1))->say($survey['text'], array("language" => "en-IN"));
-            $response->say('sorry no response, switching to main menu');
-            $response->redirect('/outbound', array("method"=>"GET"));
+                break;
+            case "2":
+                
+                break;
+            case "3":
+                
+                break;
+            default:
+                $response->say('sorry no response, switching to main menu');
         }
+        $response->redirect('/outbound', array("method"=>"GET"));
 
         return $response;
     }
