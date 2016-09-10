@@ -23,7 +23,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "practo/buzz-bundle": "1.0.1",
         "twilio/sdk" : "*",
-        "friendsofsymfony/rest-bundle": "^2.1"
+        "friendsofsymfony/rest-bundle": "^2.1",
+        "doctrine/doctrine-migrations-bundle": "^1.0"
     },
     "repositories": [ {
         "type": "git",
