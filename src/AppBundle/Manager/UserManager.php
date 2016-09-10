@@ -39,9 +39,8 @@ class UserManager
     public function add($requestParams)
     {
         $user = null;
-        $requestParams = json_decode($requestParams, true);
         if (isset($requestParams['Called'])) {
-            $user = $this->userRepo->findOneByPhone($requestParams['user_number']);
+            $user = $this->userRepo->findOneByPhone($requestParams['Called']);
             if (!$user) {
                 $user = new User();
                 $user->setPhone($requestParams['Called']);
