@@ -23,12 +23,12 @@ class TwilioController extends Controller
         $queryParams = $this->get('request')->query->all();
         $twilioMessageManager = $this->get('twilio_message_manager');
         $response = null;
-        // if (isset($queryParams['Called'])) {
-            // $userManager = $this->get('user_manager');
-            // $userManager->create($queryParams['Called']);
+        if (isset($queryParams['Called'])) {
+            $userManager = $this->get('user_manager');
+            $userManager->create($queryParams['Called']);
             
             $response = $twilioMessageManager->makeHomeMessage();
-        // }
+        }
         
 
         return new Response($response);

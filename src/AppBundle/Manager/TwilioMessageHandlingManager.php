@@ -19,13 +19,9 @@ class TwilioMessageHandlingManager
         $this->twilio = new Twiml();
     }
 
-    public function makeHomeMessage()
+    public function handleHomePage($queryParams)
     {
         $response = $this->twilio;
-        $response->say('Hello Patlola');
-        $response->gather(array("action" => "/homemessagehandler", "timeout"=>20,
-            "method"=> "GET"))->say("asdasd");
-        $response->redirect('/outbound', array("method"=>"GET"));
 
         return $response;
     }
