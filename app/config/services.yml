@@ -47,3 +47,5 @@ services:
         class: AppBundle\Manager\TwilioMessageHandlingManager
         arguments:
             - '@csvey_api.survey_manager'
+            - '@csvey_api.user_manager'
+            - '@csvey_api.health_tip_manager'

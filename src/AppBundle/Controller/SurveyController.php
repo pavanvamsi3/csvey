@@ -53,7 +53,7 @@ class SurveyController extends Controller
         $response = new Twiml();
         if ($surveyResponse == "success") {
             $response->say("Thanks for your time, your csvey balance is updated to 10.
-            You'll get a free recharge when it reaches ten rupees.");   
+            You'll get a free recharge for your csvey registered mobile number.");
         } else {
             $response->say("Sorry The Digit you have pressed is not valid."); 
         }
