@@ -14,7 +14,10 @@ use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
 class UserController extends Controller
 {
     /**
-     * @Route("/user", name="post_user")
+     * @Route(
+     *      path    = "/user",
+     *      methods = {"POST"}
+     *  )
      *
      * @return View
      */

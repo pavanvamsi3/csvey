@@ -29,7 +29,7 @@ class UserManager
     public function __construct(Doctrine $doctrine)
     {
         $this->doctrine = $doctrine;
-        $this->entityManager = $this->doctrine->getManager();
+        $this->em = $this->doctrine->getManager();
         $this->userRepo = $this->em->getRepository('AppBundle:User');
     }
 
