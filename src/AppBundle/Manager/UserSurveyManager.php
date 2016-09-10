@@ -72,13 +72,18 @@ class UserSurveyManager
     {
         $survey = $this->surveyRepo->findOneById($surveyId);
         $qb = $this->em->createQueryBuilder();
-        $qb->select('count(us.id)')
-            ->from('AppBundle:UserSurvey', 'us')
-            ->andWhere('us.surveyId = :surveyId')
-            ->setParameter('surveyId', $surveyId);
 
         if ($survey->getType() === "multiple choice") {
-            $qb->groupBy('us.choiceId');
+            $qb->select('c.choiceName, count(us.id)');
+        } else {
+            $qb->select('count(us.id)');
+        }
+        $qb->from('AppBundle:UserSurvey', 'us')
+            ->andWhere('us.surveyId = :surveyId')
+            ->setParameter('surveyId', $surveyId);
+        if ($survey->getType() === "multiple choice") {
+            $qb->innerjoin('us.choiceId', 'c')
+               ->groupBy('us.choiceId');
         } else {
             $qb->groupBy('us.rating');
         }
