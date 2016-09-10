@@ -12,3 +12,8 @@ services:
         class: AppBundle\Manager\HttpManager
         calls:
             - [ setRequest, [ '@?request=' ] ]
+
+    user_survey_manager:
+        class: AppBundle\Manager\UserSurveyManager
+        arguments:
+            - '@doctrine'
