@@ -53,9 +53,9 @@ class SurveyController extends Controller
         $response = new Twiml();
         if ($surveyResponse == "success") {
             $response->say("Thanks for your time, your csvey balance is updated to 10.
-            You'll get a free recharge for your csvey registered mobile number.");
+            You'll get a free recharge for your csvey registered mobile number.", array("language" => "en-IN"));
         } else {
-            $response->say("Sorry The Digit you have pressed is not valid."); 
+            $response->say("Sorry The Digit you have pressed is not valid.", array("language" => "en-IN")); 
         }
         $response->redirect('/outbound', array("method"=> "GET"));
 

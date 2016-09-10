@@ -13,18 +13,21 @@ class TwilioMessageHandlingManager
     private $surveyManager;
     private $userManager;
     private $healthTipManager;
+    private $newsManager;
 
     /**
      * Constructor
      */
     public function __construct($surveyManager,
         $userManager,
-        $healthTipManager)
+        $healthTipManager,
+        $newsManager)
     {
         $this->twilio = new Twiml();
         $this->surveyManager = $surveyManager;
         $this->userManager = $userManager;
         $this->healthTipManager = $healthTipManager;
+        $this->newsManager = $newsManager;
     }
 
     /**
@@ -45,8 +48,8 @@ class TwilioMessageHandlingManager
                     $user = $this->userManager->loadByPhoneNumber($queryParams['Called']);
                     if ($user->getAge() == -1) {
                         $response->gather(array('action' => '/ageinformation', "method" => "POST",
-                            "numDigits" => 2))->say("Please Provide your age by pressing number keypad
-                        so that we can serve you the best health tips.", array("language" => "en-IN"));
+                            "numDigits" => 2))->say("Please Provide your Age by pressing number keypad,
+                        so that we can serve you the Best Health tips.", array("language" => "en-IN"));
                         $response->say("Sorry not a correct response", array("language" => "en-IN"));
                     } else {
                         $healthTip = $this->healthTipManager->getHealthTip($user->getAge());
@@ -55,7 +58,8 @@ class TwilioMessageHandlingManager
                 }
                 break;
             case "3":
-                
+                $newsText = $this->newsManager->getNews();
+                $response->say($newsText, array("language" => "en-IN"));
                 break;
             default:
                 $response->say('sorry your response is not valid, switching to main menu', array("language" => "en-IN"));
