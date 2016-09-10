@@ -10,4 +10,17 @@ namespace AppBundle\Repository;
  */
 class HealthtipRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function retreiveByAge($age)
+    {
+        if (is_null($age)) {
+            return null;
+        }
+        $qb = $this->createQueryBuilder('ht')
+                   ->where('ht.minAge <= :age')
+                   ->Andwhere('ht.maxAge > :age')
+                   ->setParameter('age', $age);
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
 }
