@@ -71,4 +71,9 @@ class UserManager
 
         return $user;
     }
+
+    public function refresh($user)
+    {
+        return $this->em->refresh($user);
+    }
 }

@@ -57,7 +57,7 @@ class UserSurveyManager
             if ($balance === null) {
                 $user->setBalance(0);
             } else {
-                $user->setBalance($balance + 2);
+                $user->setBalance($balance + 10);
             }
             $this->em->persist($userSurvey);
             $this->em->persist($user);
