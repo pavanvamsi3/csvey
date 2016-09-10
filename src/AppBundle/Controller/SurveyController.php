@@ -37,8 +37,8 @@ class SurveyController extends Controller
     public function postUserSurveyAction($surveyId)
     {
         $requestParams = $this->get('request')->request->all();
-        $surveyManager = $this->get->('csvey_api.survey_manager');
-        $userManager = $this->get->('csvey_api.user_manager');
+        $surveyManager = $this->get('csvey_api.survey_manager');
+        $userManager = $this->get('csvey_api.user_manager');
         $survey = $surveyManager->load($surveyId);
         $user = null;
         if (isset($requestParams['Called']) && $requestParams['Called']) {
@@ -46,7 +46,7 @@ class SurveyController extends Controller
         }
 
         if ($survey && $user && isset($requestParams['Digits'])) {
-            $surveyUserManager = $this->get->('csvey_api.user_survey_manager');
+            $surveyUserManager = $this->get('csvey_api.user_survey_manager');
             $surveyUserManager->add($requestParams, $survey->getId());
         }
         $response = new Twiml();
