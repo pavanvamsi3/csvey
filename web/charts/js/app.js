@@ -15,7 +15,8 @@ $(document).ready(function(){
         };
 
         function getUserRepos(callback){
-            $.get("https://api.github.com/users/" + searchterm + "/repos",
+            //$.get("https://api.github.com/users/" + searchterm + "/repos",
+            $.get("http://www.practo.local/surveyquestions/"+ searchterm,
                 function(data, status){
                     console.log(status);
                     success: callback(data,status);
@@ -23,7 +24,8 @@ $(document).ready(function(){
         };
 
         function getRepoLanguages(callback,repo){
-            $.get("https://api.github.com/repos/" + searchterm + "/" + repo + "/languages",
+            //$.get("https://api.github.com/repos/" + searchterm + "/" + repo + "/languages",
+            $.get("http://www.practo.local/surveyoptions/" + repo,
                 function(data, status){
                         console.log(status);
                         success: callback(data,status,repo);
@@ -36,10 +38,11 @@ $(document).ready(function(){
             $("#username").append(username);
         };
 
-        function showRepos(data, status){
+        function showSurveys(data, status){
+            data = JSON.parse(data)
             console.log(status);
             for (var i = 0; i < data.length; i++) {
-                $("#repoDetails").append("<li id='repo" + i + "'>" + data[i].name + "</li>");
+                $("#repoDetails").append("<li id=" + data[i].id + ">" + data[i].question + "</li>");
             };
 
             // function when user clicks a repo choice
@@ -49,31 +52,25 @@ $(document).ready(function(){
                 // $("#langDetails").children().remove();
 
                 // Get repo id
-                var repoChoice = $("#"+this.id).html();
-
+                var repoChoice = (this.id)
                 getRepoLanguages(showLangs, repoChoice);
 
             });
         };
 
-        function showLangs(data, status,repo){
-
+        function showLangs(data, status,repo) {
+            data = JSON.parse(data);
             var dataset = [];
 
             // loop through data object and append items to li
             for (var key in data) {
-            if (data.hasOwnProperty(key)) { // ensure it is key from data, not prototype being used
-
-                // Display the count
-                //$("#langDetails").append("<li>" + key + ": " + data[key] + "</li>");
-
-                var item = new Object();
-                    item.key = key;
-                    item.value = data[key];
+                if (data.hasOwnProperty(key)) { // ensure it is key from data, not prototype being use
+                    var item = new Object();
+                    item.key = data[key].value;
+                    item.value = data[key].count;
                     dataset.push(item);
-            };
-        };
-        console.log(dataset);
+                };
+            }
 
         // D3 Code from now onwards
 
@@ -142,8 +139,8 @@ $(document).ready(function(){
                 .call(yAxis);
 
         // Update the title
-            svg.select(".chartTitle")
-                .text(repo);
+            // svg.select(".chartTitle")
+            //     .text(repo);
 
         // Add tooltip
             bars.on("mouseover",function(d){
@@ -191,8 +188,8 @@ $(document).ready(function(){
 
 
         // call the user and repos functions
-        getUserData(showUser);
-        getUserRepos(showRepos);
+        //getUserData(showUser);
+        getUserRepos(showSurveys);
 
 
         // setup for the d3 chart
@@ -241,14 +238,14 @@ $(document).ready(function(){
             .attr("class", "x axis label")
             .attr("text-anchor", "middle")
             .attr("transform", "translate(" + (w / 2) + "," + (h + (margin.bottom / 2) + 10) + ")")
-            .text("Language");
+            .text("Options");
 
         // add the y axis label
         svg.append("text")
             .attr("class", "y axis label")
             .attr("text-anchor", "middle")
             .attr("transform", "translate(15," + (h / 2) + ")rotate(-90)")
-            .text("Number of characters");
+            .text("No. of users");
 
 
         // add a title to the chart
@@ -256,7 +253,7 @@ $(document).ready(function(){
             .attr("class", "chartTitle")
             .attr("text-anchor", "middle")
             .attr("transform", "translate(" + (w / 2) + ",20)")
-            .text("GitHub Repo");
+            .text("Graph");
 
 
 

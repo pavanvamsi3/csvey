@@ -41,15 +41,14 @@ class UserSurveyManager
         if ($surveyId && isset($requestParams['Called'])) {
             $survey = $this->surveyRepo->findOneById($surveyId);
             $user = $this->userRepo->findOneByPhone($requestParams['Called']);
+            if (isset($requestParams['Digits']) && ($requestParams['Digits'] < 1 || $requestParams['Digits'] > 5)) {
+                return "failed";
+            }
             if($survey->getType() == 'multiple choice') {
                 $choices = $this->choiceRepo->findBySurveyId($surveyId);
-                if (isset($requestParams['Digits']) && $requestParams['Digits'] > 0 && $requestParams['Digits'] < 5) {
-                    $userSurvey->setChoiceId($choices[$requestParams['Digits']]);
-                } else {
-                    return "failed";
-                }
+                $userSurvey->setChoiceId($choices[$requestParams['Digits']]);
             } else {
-                $userSurvey->setRating($requestParams['choice']);
+                $userSurvey->setRating($requestParams['Digits']);
             }
             $userSurvey->setSurveyId($survey);
             $userSurvey->setUserId($user);
@@ -63,7 +62,7 @@ class UserSurveyManager
             $this->em->persist($user);
             $this->em->flush();
         }
-        
+
         return "success";
     }
 
@@ -76,13 +75,16 @@ class UserSurveyManager
      */
     public function loadSurveyCounts($surveyId)
     {
+        $counts = array();
         $survey = $this->surveyRepo->findOneById($surveyId);
         $qb = $this->em->createQueryBuilder();
 
         if ($survey->getType() === "multiple choice") {
             $qb->select('c.choiceName, count(us.id)');
+            $counts['type'] = 'multiple choice';
         } else {
             $qb->select('count(us.id)');
+            $counts['type'] = 'rating';
         }
         $qb->from('AppBundle:UserSurvey', 'us')
             ->andWhere('us.surveyId = :surveyId')
@@ -94,8 +96,7 @@ class UserSurveyManager
             $qb->groupBy('us.rating');
         }
         $query = $qb->getQuery();
-        $counts = $query->getResult();
-
+        $counts['count'] = $query->getResult();
         return $counts;
     }
 }

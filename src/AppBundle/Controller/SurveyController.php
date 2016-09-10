@@ -34,8 +34,23 @@ class SurveyController extends Controller
      */
     public function getOptionAction($surveyId)
     {
-        $surveyManager = $this->get('csvey_api.survey_manager');
-        $options = $surveyManager->loadOptions($surveyId);
+        $userSurveyManager = $this->container->get('csvey_api.user_survey_manager');
+        $count = $userSurveyManager->loadSurveyCounts($surveyId);
+
+        $optionData = array();
+        if ( $count['type'] == 'multiple choice') {
+            foreach ($count['count'] as $key => $value) {
+                $options[] = array('value' => $value['choiceName'],
+                                    'count' => $value[1]
+                            );
+            }
+        } else {
+            foreach ($count['count'] as $key => $value) {
+                $options[] = array('value' => $key,
+                                'count' => $value[1]
+                    );
+            }
+        }
 
         return new Response(json_encode($options));
     }
@@ -56,7 +71,7 @@ class SurveyController extends Controller
 
     /**
      * @Route("/survey/{surveyId}", name="twilio_response")
-     * 
+     *
      *
      * @return Response
      */
@@ -82,9 +97,9 @@ class SurveyController extends Controller
         $this->em->refresh($user);
         if ($surveyResponse == "success") {
             $response->say("Thanks for your time, your csvey balance is updated to 10.
-            You'll get a free recharge when it reaches ten rupees.");   
+            You'll get a free recharge when it reaches ten rupees.");
         } else {
-            $response->say("Sorry The Digit you have pressed is not valid."); 
+            $response->say("Sorry The Digit you have pressed is not valid.");
         }
         $response->redirect('/outbound', array("method"=> "GET"));
 
