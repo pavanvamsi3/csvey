@@ -32,8 +32,39 @@ class SurveyManager
         $this->entityManager = $this->doctrine->getManager();
         $this->surveyRepo = $this->entityManager->getRepository('AppBundle:Survey');
         $this->choiceRepo = $this->entityManager->getRepository('AppBundle:Choice');
+        $this->companyRepo = $this->entityManager->getRepository('AppBundle:Company');
     }
 
+    /**
+     * @return array
+     */
+    public function loadQuestions($company)
+    {
+        $company = $this->companyRepo->findOneByName($company);
+        $surveys = $this->surveyRepo->findByCompanyId($company);
+        $surveyData = array();
+        foreach ($surveys as $survey) {
+            $surveyData[] = array('id' => $survey->getId(),'question' => $survey->getQuestion());
+        }
+
+        return $surveyData;
+    }
+
+    /**
+     * @return array
+     */
+    public function loadOptions($surveyId)
+    {
+        $choices = $this->choiceRepo->findBySurveyId($surveyId);
+
+        $optionData = array();
+        foreach ($choices as $choice) {
+            $optionData[] = $choice->getChoiceName();
+        }
+        return $optionData;
+    }
+
+    
     /**
      * @return array
      */

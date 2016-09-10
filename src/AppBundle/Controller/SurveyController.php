@@ -15,6 +15,32 @@ use Twilio\Twiml;
 class SurveyController extends Controller
 {
     /**
+     * @Route("/surveyquestions/{company}", name="get_survey")
+     *
+     * @return View
+     */
+    public function getSurveyAction($company)
+    {
+        $surveyManager = $this->get('csvey_api.survey_manager');
+        $survey = $surveyManager->loadQuestions($company);
+
+        return new Response(json_encode($survey));
+    }
+
+    /**
+     * @Route("/surveyoptions/{surveyId}", name="get_option")
+     *
+     * @return View
+     */
+    public function getOptionAction($surveyId)
+    {
+        $surveyManager = $this->get('csvey_api.survey_manager');
+        $options = $surveyManager->loadOptions($surveyId);
+
+        return new Response(json_encode($options));
+    }
+
+    /**
      * @Route("/survey", name="post_survey")
      *
      * @return View
