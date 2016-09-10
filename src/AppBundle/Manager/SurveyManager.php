@@ -98,7 +98,7 @@ class SurveyManager
         $surveyId = mt_rand(0,count($surveys));
 
         $survey = $this->surveyRepo->findOneById($surveyId);
-        $surveyData['id'] = 1;
+        $surveyData['id'] = $surveyId;
         $str = $survey->getQuestion();
 
         $choices = $this->choiceRepo->findBySurveyId($surveyId);
