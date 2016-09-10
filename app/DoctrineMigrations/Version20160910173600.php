@@ -18,7 +18,6 @@ class Version20160910173600 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE healthtip (id INT AUTO_INCREMENT NOT NULL, tip VARCHAR(1024) NOT NULL, min_age INT NOT NULL, max_age INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE user ADD balance INT NOT NULL');
     }
 
@@ -30,7 +29,6 @@ class Version20160910173600 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP TABLE healthtip');
         $this->addSql('ALTER TABLE user DROP balance');
     }
 }
