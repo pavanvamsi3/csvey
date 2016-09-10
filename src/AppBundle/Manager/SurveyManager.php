@@ -64,7 +64,7 @@ class SurveyManager
         return $optionData;
     }
 
-    
+
     /**
      * @return array
      */
