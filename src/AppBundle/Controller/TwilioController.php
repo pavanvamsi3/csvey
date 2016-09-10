@@ -23,10 +23,9 @@ class TwilioController extends Controller
         $queryParams = $this->get('request')->query->all();
         $twilioMessageManager = $this->get('twilio_message_manager');
         $response = $twilioMessageManager->makeHomeMessage();
-
-        return new Response($response);
+        return $this->render('base.html.twig', array(
+       'name' => 'Fabien') );
     }
-
     /**
      * @Route("/inbound", name="inbound_route")
      *
@@ -43,7 +42,7 @@ class TwilioController extends Controller
         $response = new Twiml();
         $response->say('Hello Patlola');
         $response->play('https://api.twilio.com/cowbell.mp3', array("loop" => 5));
-
         return new Response($response);
+
     }
 }

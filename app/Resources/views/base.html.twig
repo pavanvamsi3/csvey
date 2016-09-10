@@ -1,13 +1,257 @@
 <!DOCTYPE html>
 <html>
+
+    <style type="text/css">
+        .survey-container {
+            height: 100px;
+        }
+        .survey-div {
+            display: flex;
+            width: 60%;
+            margin: auto;
+            flex-direction:column;
+          border-radius: 2px;
+          background-color: #ffffff;
+          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+          border: solid 1px #e7e7e7;
+          padding-left: 15px;
+          padding-right: 15px;
+          flex:1;
+        }
+
+        .display-none {
+            display: none;
+        }
+
+        .question-choice-text {
+            width: 100%;
+        }
+
+        .question-choice-text > input{
+            border: 0;
+            width: 95%;
+            color: #263345;
+            font-size: 12px;
+            outline: none;
+            margin-left: 10px;
+        }
+        .question-choice-text > input:hover{
+            border-bottom: 1px solid #e7e7e7;
+        }
+        .question-choice-text > input:focus{
+            border-bottom: 1.5px solid #263345;
+        }
+        .question-choice-text > input::-webkit-input-placeholder {
+            color: #263345;
+        }
+        .question-choice-text > input:-moz-placeholder {
+            color: #263345;
+            opacity: 1;
+        }
+        .question-choice-text > input::-moz-placeholder {
+            color: #263345;
+            opacity: 1;
+        }
+        .question-choice-text > input:focus:-ms-input-placeholder {
+            color: #e7e7e7;
+        }
+        .question-choice-text > input:focus::-webkit-input-placeholder {
+            color: #e7e7e7;
+        }
+        .question-choice-text > input:focus:-moz-placeholder {
+            color: #e7e7e7;
+            opacity: 1;
+        }
+        .question-choice-text > input:focus::-moz-placeholder {
+            color: #e7e7e7;
+            opacity: 1;
+        }
+        .question-choice-text > input:focus:-ms-input-placeholder {
+            color: #e7e7e7;
+        }
+
+        .radio-choice-icon {
+            width: 15px;
+            height: 15px;
+            border-radius: 100px;
+            border: solid 1px #e7e7e7;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .choice-div {
+            display: flex;
+            align-items:center;
+            margin-bottom: 10px;
+        }
+
+        .rating-star-div {
+            display: inline-flex;
+            text-align: center;
+            flex:1;
+        }
+        .rating-question-div {
+            display: none;
+            width: 200px;
+        }
+
+        .add-question-container {
+            width: 100%;
+            border-top: 1px solid #e7e7e7;
+            height: 66px;
+        }
+
+        .add-question {
+            background: url('{{asset('bundles/framework/images/add-question.png') }}') 
+                        scroll no-repeat left center;
+            padding: 2px 0px 2px 24px;
+            font-size: 12px;
+            font-weight: normal;
+            color: #0dc9d4;
+            margin-left: 3%;
+        }
+
+        .next-question {
+            width:150px;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+        
+        function submitForm() { 
+            console.log('here man');
+
+            var frm = $("#surveyForm");
+            var data = JSON.stringify(frm.serializeArray());
+            console.log(data);
+
+            var elements = document.querySelectorAll("#surveyForm input[type=text]");
+                var questions=[];
+                for (var i = 0, element; element = elements[i];i++) {
+                    if (element.value === "" && element.style.display != 'none') {
+                        if(element.name.charAt(0) in questions) {
+                            if(element.name.charAt(1) === 'q' && element.value) {
+                                questions[parseInt(element.name.charAt(0), 10)].question = element.value;
+                            } else if(element.name.charAt(1) === 'c' && element.value) {
+                                questions[parseInt(element.name.charAt(0), 10)].options.push(element.value);
+                            } else if (element.name.charAt(1) === 't' && element.value) {
+                                questions[parseInt(element.name.charAt(0), 10)].type.push(element.value);
+                            }
+                            
+                        } else {
+                            questions[parseInt(element.name.charAt(0),10)] = {
+                                'question':'',
+                                'options': [],
+                                'type':''
+                            };
+                        }
+                       
+                    }
+                }
+
+                var surveyJsonObject = {};
+                surveyJsonObject.surveys = questions;
+                surveyJsonObject.company ="Practo";   
+                console.log(JSON.parse(JSON.stringify(surveyJsonObject.surveys)));
+
+            // $("#surveyForm").find("input, textarea, select") {
+
+            // };
+        }
+
+        function showQuestionType() {
+
+        }
+
+        function showQuestion (id ,type,no) {
+            // if(question === 'rating') {
+            //     document.getElementById('rating').style.display= 'flex';
+            //     document.getElementById('choice').style.display= 'none';
+            // } else {
+            //     document.getElementById('choice').style.display= 'block';
+            //     document.getElementById('rating').style.display= 'none';
+            // }
+            console.log(id + type + no);
+        }
+
+        function addQuestion () {
+            document.getElementById("question-div-2").style.display="block";
+            document.getElementById('next-question').style.display="none";
+        }
+    </script>
+
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>Survey Builder</title>
         {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link href="//cdn.muicss.com/mui-0.7.5/css/mui.min.css" rel="stylesheet" type="text/css" />
+        <script src="//cdn.muicss.com/mui-0.7.5/js/mui.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+
+        <div class="mui-appbar">
+            <!-- content -->
+        </div>
+
+        <!--  <div class="mui-dropdown">
+            <button class="mui-btn mui-btn--primary" data-mui-toggle="dropdown">Your Company<span class="mui-caret"></span></button>
+            <ul class="mui-dropdown__menu">
+                <li><a href="#">Practo</a></li>
+                <li><a href="#">Flipkart</a></li>
+                <li><a href="#">Amazon</a></li>
+            </ul>
+        </div> -->
+        <form id='surveyForm' method="get" novalidate>
+            
+            <div class="survey-div" id ="survey-question">
+                {% for questionId in [0,1] %}
+                <div id="question-div-{{questionId}}" class="{{questionId == 2 ? 'display-none': ''}}">
+                    <div style="display:flex; align-items: center;justify-content: space-between;">
+                        <div class="mui-textfield" class="display-none" style="width:70%;">
+                            <input type="text" name = "{{questionId}}q" id="question_{{questionId}}" placeholder="Input 1" required>     
+                        </div>
+                        <div class="mui-dropdown">
+                            <button class="mui-btn mui-btn--primary" data-mui-toggle="dropdown">Select type<span class="mui-caret"></span></button>
+                            <ul class="mui-dropdown__menu">
+                                <li id="_{{questionId}}_option_rating" name="option_{{questionId}}" onclick="showQuestion(this.id, 'rating', {{questionId}})"><a href="#">Rating</a></li>
+                                <li id="_{{questionId}}_option_choice" name="option_{{questionId}}" onclick="showQuestion(this.id, 'choice',{{questionId}});"><a href="#">Multiple Choices</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="choice">
+                        {% for choiceId in [1,2,3,4] %}
+                        <div class="choice-div">
+                            <div class="radio-choice-icon"></div>
+                            <div class="question-choice-text">
+                                <input type="text"  name="{{questionId}}c_{{choiceId}}" id="question-choice_{{questionId}}_{{choiceId}}" placeholder="Option 1" required> 
+                            </div> 
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div id ="rating" class="rating-question-div">
+                        {% for rating in [1,2,3,4,5] %}
+                        <div class = "rating-star-div"  >
+                            <div style="">
+                                <img src="{{asset('bundles/framework/images/rating_star.png') }}" >
+                                <p class="font-12-text">{{rating}} </p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}    
+            <button class="mui-btn mui-btn--raised mui-btn--primary" type="button" id ="next-question" style="width:150px;" onclick="addQuestion()">Add question</button>    
+            
+            <button type="submit" class="mui-btn mui-btn--raised" style="width:150px;" onclick="submitForm();">Submit</button>
+
+
+            </div>
+        </form>
     </body>
 </html>
