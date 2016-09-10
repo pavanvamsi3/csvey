@@ -29,7 +29,7 @@ class SurveyController extends Controller
     }
 
     /**
-     * @Route("/survey/{id}", name="twilio_response")
+     * @Route("/survey/{surveyId}", name="twilio_response")
      * 
      *
      * @return Response

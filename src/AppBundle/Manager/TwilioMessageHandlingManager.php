@@ -27,7 +27,7 @@ class TwilioMessageHandlingManager
         $response = $this->twilio;
 
         if ($queryParams['Digits'] == "1") {
-            $survey = $this->surveyManager->get();
+            $survey = ["id" => 1, "text" => "who is laisd? press 1 for 1"];
             $response->gather(array('action' => "/survey/".$survey['id'], "method" => "POST",
                 "numDigits" => 1))->say($survey['text'], array("language" => "en-IN"));
             $response->say('sorry no response, switching to main menu');
