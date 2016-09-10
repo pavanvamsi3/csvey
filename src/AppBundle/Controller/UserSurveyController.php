@@ -27,4 +27,23 @@ class UserSurveyController extends Controller
 
         return View::create($userSurvey);
     }
+
+    /**
+     * Get all Response for a Survey
+     *
+     * @Route(
+     *      path    = "/survey/{surveyId}/counts",
+     *      methods = {"GET"}
+     *  )
+     *
+     * @return array
+     */
+    public function getSurveyCountsAction($surveyId)
+    {
+        $userSurveyManager = $this->container->get('user_survey_manager');
+        $counts = $userSurveyManager->loadSurveyCounts($surveyId);
+
+        return View::create($counts);
+    }
+
 }   

@@ -60,4 +60,32 @@ class UserSurveyManager
 
         return $userSurvey;
     }
+
+    /**
+     * Survey Count
+     *
+     * @param integer $surveyId      - Survey
+     *
+     * @return array
+     */
+    public function loadSurveyCounts($surveyId)
+    {
+        $survey = $this->surveyRepo->findOneById($surveyId);
+       
+        $qb = $this->em->createQueryBuilder();
+        $qb->select('count(*)')
+            ->from('AppBundle:UserSurvey', 'us')
+            ->andWhere('us.surveyId = :surveyId')
+            ->setParameter('surveyId', $surveyId);
+        
+        if ($survey->getType() == 'multiple choice') {
+            $qb->groupBy('us.choiceId');
+        } else {
+            $qb->groupBy('us.rating');
+        }
+        $query = $qb->getQuery();
+        $counts = $query->getResult();
+
+        return $counts; 
+    }
 }
