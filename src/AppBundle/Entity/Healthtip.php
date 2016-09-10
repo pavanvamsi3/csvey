@@ -32,10 +32,17 @@ class Healthtip
     /**
      * @var string
      *
-     * @ORM\Column(name="age_range", type="string", length=255)
-     * @Assert\Choice(choices={"18-30", "30-40", "40-50", "50-60", "60+"})
+     * @ORM\Column(name="min_age", type="integer")
      */
-    private $ageRange;
+    private $minAge;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="max_age", type="integer")
+     */
+    private $maxAge;
+
 
 
     /**
@@ -73,27 +80,45 @@ class Healthtip
     }
 
     /**
-     * Set ageRange
+     * Set minAge
      *
-     * @param string $ageRange
+     * @param string $minAge
      *
-     * @return Healthtip
      */
-    public function setAgeRange($ageRange)
+    public function setMinAge($minAge)
     {
-        $this->ageRange = $ageRange;
-
-        return $this;
+        $this->minAge = $minAge;
     }
 
     /**
-     * Get ageRange
+     * Get minAge
      *
-     * @return string
+     * @return integer
      */
-    public function getAgeRange()
+    public function getMinAge()
     {
-        return $this->ageRange;
+        return $this->minAge;
+    }
+
+    /**
+     * Set maxAge
+     *
+     * @param string $maxAge
+     *
+     */
+    public function setMaxAge($maxAge)
+    {
+        $this->maxAge = $maxAge;
+    }
+
+    /**
+     * Get maxAge
+     *
+     * @return integer
+     */
+    public function getMaxAge()
+    {
+        return $this->maxAge;
     }
 }
 
