@@ -20,9 +20,13 @@ class TwilioController extends Controller
      */
     public function outboundAction(Request $request)
     {
+
         $response = new Twiml();
         $response->say('Hello Patlola');
         $response->play('https://api.twilio.com/cowbell.mp3', array("loop" => 5));
+        $queryParams = $this->get('request')->query->all();
+        $twilioMessageManager = $this->get('twilio_message_manager');
+        $response = $twilioMessageManager->makeHomeMessage();
 
         return new Response($response);
     }

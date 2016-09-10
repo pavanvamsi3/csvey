@@ -24,3 +24,6 @@ services:
             - %twilio_ssid%
             - %twilio_secret%
             - %twilio_verified_number%
+
+    twilio_message_manager:
+        class: AppBundle\Manager\TwilioMessageManager
