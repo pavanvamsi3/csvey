@@ -9,18 +9,19 @@ use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
 /**
  * User Survey Manager
  */
-class UserSurveyManager 
+class UserSurveyManager
 {
+    protected $doctrine;
     /**
      * Constructor
      *
      * @param Doctrine $doctrine - Doctrine
      *
      */
-    public function __construct(Doctrine $doctrine) 
+    public function __construct(Doctrine $doctrine)
     {
-        parent::__construct($doctrine);
-
+        $this->doctrine = $doctrine;
+        $this->em = $this->doctrine->getManager();
         $this->userRepo = $this->em->getRepository('AppBundle:User');
         $this->surveyRepo = $this->em->getRepository('AppBundle:Survey');
         $this->choiceRepo = $this->em->getRepository('AppBundle:Choice');
@@ -36,13 +37,12 @@ class UserSurveyManager
      */
     public function add($requestParams, $surveyId)
     {
-        if ($surveyId && isset($requestParams['user_number'])) 
-        {
-            $userSurvey = new UserSurvey();
+        $userSurvey = new UserSurvey();
+        if ($surveyId && isset($requestParams['user_number'])) {
             $survey = $this->surveyRepo->findOneById($surveyId);
             $user = $this->userRepo->findOneByPhone($requestParams['user_number']);
             if($survey->getType() == 'multiple choice') {
-                $choice = $this->choiceRepo->fineOneBy(
+                $choice = $this->choiceRepo->findOneBy(
                     array(
                         'choiceName' => $requestParams['choice'],
                         'surveyId' => $surveyId
@@ -51,12 +51,12 @@ class UserSurveyManager
                 $userSurvey->setChoiceId($choice);
             } else {
                 $userSurvey->setRating($requestParams['choice']);
-            }   
+            }
             $userSurvey->setSurveyId($survey);
             $userSurvey->setUserId($user);
+            $this->em->persist($userSurvey);
+            $this->em->flush();
         }
-        $this->em->persist($userSurvey);
-        $this->em->flush();
 
         return $userSurvey;
     }
@@ -71,14 +71,13 @@ class UserSurveyManager
     public function loadSurveyCounts($surveyId)
     {
         $survey = $this->surveyRepo->findOneById($surveyId);
-       
         $qb = $this->em->createQueryBuilder();
-        $qb->select('count(*)')
+        $qb->select('count(us.id)')
             ->from('AppBundle:UserSurvey', 'us')
             ->andWhere('us.surveyId = :surveyId')
             ->setParameter('surveyId', $surveyId);
-        
-        if ($survey->getType() == 'multiple choice') {
+
+        if ($survey->getType() === "multiple choice") {
             $qb->groupBy('us.choiceId');
         } else {
             $qb->groupBy('us.rating');
@@ -86,6 +85,6 @@ class UserSurveyManager
         $query = $qb->getQuery();
         $counts = $query->getResult();
 
-        return $counts; 
+        return $counts;
     }
 }

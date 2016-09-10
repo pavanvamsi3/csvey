@@ -5,6 +5,10 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use FOS\RestBundle\View\View;
+use Symfony\Component\HttpFoundation\Response;
+use FOS\RestBundle\Controller\FOSRestController;
+use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
 
 class UserSurveyController extends Controller
 {
@@ -22,10 +26,10 @@ class UserSurveyController extends Controller
     {
         $queryParams = $this->get('request')->request->all();
         $userSurveyManager = $this->container->get('csvey_api.user_survey_manager');
-        
+
         $userSurvey = $userSurveyManager->add($queryParams, $surveyId);
 
-        return View::create($userSurvey);
+        return new Response(json_encode(array('message' => 'success')));
     }
 
     /**
@@ -41,9 +45,9 @@ class UserSurveyController extends Controller
     public function getSurveyCountsAction($surveyId)
     {
         $userSurveyManager = $this->container->get('csvey_api.user_survey_manager');
-        $counts = $userSurveyManager->loadSurveyCounts($surveyId);
+        $count = $userSurveyManager->loadSurveyCounts($surveyId);
 
-        return View::create($counts);
+        return new Response(json_encode(array('count' => $count)));
     }
 
-}   
+}
