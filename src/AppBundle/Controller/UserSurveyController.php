@@ -21,7 +21,7 @@ class UserSurveyController extends Controller
     public function postUserResponseAction($surveyId)
     {
         $queryParams = $this->get('request')->request->all();
-        $userSurveyManager = $this->container->get('workflow_api.user_survey_manager');
+        $userSurveyManager = $this->container->get('user_survey_manager');
         
         $userSurvey = $userSurveyManager->add($queryParams, $surveyId);
 

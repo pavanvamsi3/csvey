@@ -2,9 +2,9 @@
 
 namespace AppBundle\Manager;
 
+use AppBundle\Entity\UserSurvey;
 use Symfony\Component\Validator\ValidatorInterface;
 use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
-use AppBundle\Entity\UserSurvey;
 
 /**
  * User Survey Manager
