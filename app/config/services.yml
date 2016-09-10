@@ -27,3 +27,8 @@ services:
 
     twilio_message_manager:
         class: AppBundle\Manager\TwilioMessageManager
+
+    csvey_api.health_tip_manager:
+      class: AppBundle\Manager\HealthtipManager
+      arguments:
+        - @doctrine
