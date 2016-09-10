@@ -1,2 +1,1 @@
-A Project for sequoia
-# csvey
+### Crowd Sourcing Survey Application - SeqHack.
