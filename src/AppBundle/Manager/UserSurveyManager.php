@@ -43,10 +43,11 @@ class UserSurveyManager
             $user = $this->userRepo->findOneByPhone($requestParams['Called']);
             if($survey->getType() == 'multiple choice') {
                 $choices = $this->choiceRepo->findBySurveyId($surveyId);
-                if (isset($requestParams['Digits']) && $requestParams['Digits'] < 5 and $requestParams['Digits'] > 0) {
-                    $requestParams['Digits'] -= 1;
+                if (isset($requestParams['Digits']) && $requestParams['Digits'] > 0 && $requestParams['Digits'] < 5) {
+                    $userSurvey->setChoiceId($choices[$requestParams['Digits']]);
+                } else {
+                    return "failed";
                 }
-                $userSurvey->setChoiceId($choices[$requestParams['Digits'] % 4]);
             } else {
                 $userSurvey->setRating($requestParams['choice']);
             }
@@ -56,7 +57,7 @@ class UserSurveyManager
             $this->em->flush();
         }
 
-        return $userSurvey;
+        return "success";
     }
 
     /**
