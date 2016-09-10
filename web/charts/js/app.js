@@ -9,7 +9,6 @@ $(document).ready(function(){
         function getUserData(callback) {
             $.get("https://api.github.com/users/" + searchterm,
                 function(data, status){
-                    console.log(status);
                     success: callback(data, status);
             });
         };
@@ -18,7 +17,6 @@ $(document).ready(function(){
             //$.get("https://api.github.com/users/" + searchterm + "/repos",
             $.get("http://www.practo.local/surveyquestions/"+ searchterm,
                 function(data, status){
-                    console.log(status);
                     success: callback(data,status);
             });
         };
@@ -27,20 +25,17 @@ $(document).ready(function(){
             //$.get("https://api.github.com/repos/" + searchterm + "/" + repo + "/languages",
             $.get("http://www.practo.local/surveyoptions/" + repo,
                 function(data, status){
-                        console.log(status);
                         success: callback(data,status,repo);
             });
         };
 
         function showUser(data, status){
-            console.log(status);
             var username = "<h3>" + data.login + "</h3>";
             $("#username").append(username);
         };
 
         function showSurveys(data, status){
             data = JSON.parse(data)
-            console.log(status);
             for (var i = 0; i < data.length; i++) {
                 $("#repoDetails").append("<li id=" + data[i].id + ">" + data[i].question + "</li>");
             };
