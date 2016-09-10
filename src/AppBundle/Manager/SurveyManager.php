@@ -30,6 +30,8 @@ class SurveyManager
     {
         $this->doctrine = $doctrine;
         $this->entityManager = $this->doctrine->getManager();
+        $this->surveyRepo = $this->entityManager->getRepository('AppBundle:Survey');
+        $this->choiceRepo = $this->entityManager->getRepository('AppBundle:Choice');
     }
 
     /**
@@ -86,5 +88,29 @@ class SurveyManager
     {
         return $this->entityManager->getRepository('AppBundle:Survey')
             ->findOneById($surveyId);
+    }
+
+    public function getSurvey()
+    {
+        $surveyData = array();
+        $surveys = $this->surveyRepo->findAll();
+        $surveyId = mt_rand(1,count($surveys));
+
+        $survey = $this->surveyRepo->findOneById($surveyId);
+        $surveyData['id'] = $surveyId;
+        $str = $survey->getQuestion();
+
+        $choices = $this->choiceRepo->findBySurveyId($surveyId);
+
+        $optStr = '';
+        $count = 1;
+        foreach ($choices as $choice) {
+            $optStr = $optStr . ' Press ' . $count . ' for ' . $choice->getChoiceName();
+            $count += 1;
+        }
+        $str = $str . $optStr;
+        $surveyData['text'] = $str;
+
+        return $surveyData;
     }
 }

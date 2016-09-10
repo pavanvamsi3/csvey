@@ -44,14 +44,19 @@ class SurveyController extends Controller
         if (isset($requestParams['Called']) && $requestParams['Called']) {
             $user = $userManager->loadByPhoneNumber($requestParams['Called']);
         }
-
+        $surveyResponse = "failed";
         if ($survey && $user && isset($requestParams['Digits'])) {
             $surveyUserManager = $this->get('csvey_api.user_survey_manager');
-            $surveyUserManager->add($requestParams, $survey->getId());
+            $surveyResponse = $surveyUserManager->add($requestParams, $survey->getId());
         }
+
         $response = new Twiml();
-        $response->say("Thanks for your time, your csvey balance is updated to 10.
-            You'll get a free recharge when it reaches ten rupees.");
+        if ($surveyResponse == "success") {
+            $response->say("Thanks for your time, your csvey balance is updated to 10.
+            You'll get a free recharge when it reaches ten rupees.");   
+        } else {
+            $response->say("Sorry The Digit you have pressed is not valid."); 
+        }
         $response->redirect('/outbound', array("method"=> "GET"));
 
         return new Response($response);
