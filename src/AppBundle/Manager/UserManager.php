@@ -39,20 +39,21 @@ class UserManager
     public function add($requestParams)
     {
         $user = null;
-        $requestParams = json_decode($requestParams, true);
-        if (isset($requestParams['user_number'])) {
-            $user = $this->userRepo->findOneByPhone($requestParams['user_number']);
+        if (isset($requestParams['Called'])) {
+            $user = $this->userRepo->findOneByPhone($requestParams['Called']);
             if (!$user) {
                 $user = new User();
-                $user->setPhone($requestParams['user_number']);
-                if (isset($requestParams['age'])) {
-                    $user->setAge($requestParams['age']);
-                }
+                $user->setPhone($requestParams['Called']);
                 $this->em->persist($user);
                 $this->em->flush();
-            } 
+            }
         }
 
         return $user;
+    }
+
+    public function loadByPhoneNumber($phoneNumber)
+    {
+        return $this->userRepo->findOneByPhone($phoneNumber);
     }
 }

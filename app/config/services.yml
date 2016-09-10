@@ -37,3 +37,8 @@ services:
 
     twilio_message_manager:
         class: AppBundle\Manager\TwilioMessageManager
+
+    twilio_message_handling_manager:
+        class: AppBundle\Manager\TwilioMessageHandlingManager
+        arguments:
+            - '@csvey_api.survey_manager'

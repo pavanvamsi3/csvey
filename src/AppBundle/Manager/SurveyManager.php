@@ -75,4 +75,16 @@ class SurveyManager
         }
     }
 
+    /**
+     * Get survey
+     *
+     * @param integer $surveyId   - surveyId
+     *
+     * @return array
+     */
+    public function load($surveyId)
+    {
+        return $this->entityManager->getRepository('AppBundle:Survey')
+            ->findOneById($surveyId);
+    }
 }

@@ -26,7 +26,7 @@ class User
      *
      * @ORM\Column(name="age", type="integer")
      */
-    private $age;
+    private $age = -1;
 
     /**
      * @var string

@@ -38,17 +38,15 @@ class UserSurveyManager
     public function add($requestParams, $surveyId)
     {
         $userSurvey = new UserSurvey();
-        if ($surveyId && isset($requestParams['user_number'])) {
+        if ($surveyId && isset($requestParams['Called'])) {
             $survey = $this->surveyRepo->findOneById($surveyId);
-            $user = $this->userRepo->findOneByPhone($requestParams['user_number']);
+            $user = $this->userRepo->findOneByPhone($requestParams['Called']);
             if($survey->getType() == 'multiple choice') {
-                $choice = $this->choiceRepo->findOneBy(
-                    array(
-                        'choiceName' => $requestParams['choice'],
-                        'surveyId' => $surveyId
-                    )
-                );
-                $userSurvey->setChoiceId($choice);
+                $choices = $this->choiceRepo->findBySurveyId($surveyId);
+                if (isset($requestParams['Digits']) && $requestParams['Digits'] < 5 and $requestParams['Digits'] > 0) {
+                    $requestParams['Digits'] -= 1;
+                }
+                $userSurvey->setChoiceId($choices[$requestParams['Digits'] % 4]);
             } else {
                 $userSurvey->setRating($requestParams['choice']);
             }

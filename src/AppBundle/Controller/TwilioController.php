@@ -22,7 +22,14 @@ class TwilioController extends Controller
     {
         $queryParams = $this->get('request')->query->all();
         $twilioMessageManager = $this->get('twilio_message_manager');
-        $response = $twilioMessageManager->makeHomeMessage();
+        $response = null;
+        if (isset($queryParams['Called'])) {
+            $userManager = $this->get('csvey_api.user_manager');
+            $userManager->add($queryParams);
+            
+            $response = $twilioMessageManager->makeHomeMessage();
+        }
+        
 
         return new Response($response);
     }
