@@ -45,7 +45,7 @@ class User
      *
      * @ORM\Column(name="balance", type="integer")
      */
-    private $balance;
+    private $balance = 0;
 
 
     /**
