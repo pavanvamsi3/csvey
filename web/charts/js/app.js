@@ -7,7 +7,7 @@ $(document).ready(function(){
         var searchterm = $("#term").val() ? $("#term").val() : "github";
 
         function getUserData(callback) {
-            $.get("http://api.github.com/users/" + searchterm,
+            $.get("https://api.github.com/users/" + searchterm,
                 function(data, status){
                     console.log(status);
                     success: callback(data, status);
