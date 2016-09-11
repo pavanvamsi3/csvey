@@ -6,17 +6,8 @@ $(document).ready(function(){
 
         var searchterm = $("#term").val() ? $("#term").val() : "github";
 
-        function getUserData(callback) {
-            $.get("https://api.github.com/users/" + searchterm,
-                function(data, status){
-                    console.log(status);
-                    success: callback(data, status);
-            });
-        };
-
         function getUserRepos(callback){
-            //$.get("https://api.github.com/users/" + searchterm + "/repos",
-            $.get("http://www.practo.local/surveyquestions/"+ searchterm,
+            $.get("https://www-marker.practodev.com/surveyquestions/"+ searchterm,
                 function(data, status){
                     console.log(status);
                     success: callback(data,status);
@@ -24,8 +15,7 @@ $(document).ready(function(){
         };
 
         function getRepoLanguages(callback,repo){
-            //$.get("https://api.github.com/repos/" + searchterm + "/" + repo + "/languages",
-            $.get("http://www.practo.local/surveyoptions/" + repo,
+            $.get("https://www-marker.practodev.com/surveyoptions/" + repo,
                 function(data, status){
                         console.log(status);
                         success: callback(data,status,repo);
@@ -47,10 +37,6 @@ $(document).ready(function(){
 
             // function when user clicks a repo choice
             $("#repoDetails").children().click(function(){
-
-                // Clear previous details
-                // $("#langDetails").children().remove();
-
                 // Get repo id
                 var repoChoice = (this.id)
                 getRepoLanguages(showLangs, repoChoice);
