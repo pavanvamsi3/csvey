@@ -46,7 +46,7 @@ class SurveyController extends Controller
             }
         } else {
             foreach ($count['count'] as $key => $value) {
-                $options[] = array('value' => $key,
+                $options[] = array('value' => $key + 1,
                                 'count' => $value[1]
                     );
             }
