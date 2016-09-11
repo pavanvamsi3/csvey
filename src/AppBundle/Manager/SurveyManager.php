@@ -79,10 +79,13 @@ class SurveyManager
         try {
             $conn = $this->doctrine->getConnection();
             $conn->beginTransaction();
-            $company = new Company();
-            $company->setName($requestParams['company']);
-            $this->entityManager->persist($company);
-            $this->entityManager->flush();
+            $company = $this->companyRepo->findOneByName($requestParams['company']);
+            if (!$company) {
+                $company = new Company();
+                $company->setName($requestParams['company']);
+                $this->entityManager->persist($company);
+                $this->entityManager->flush();
+            }
 
             foreach($requestParams['surveys'] as $survey) {
                 $newSurvey = new Survey();
