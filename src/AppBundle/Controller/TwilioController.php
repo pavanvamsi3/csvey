@@ -1,7 +1,5 @@
 <?php
-
 namespace AppBundle\Controller;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,8 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Twilio\Rest\Client;
 use FOS\RestBundle\Controller\FOSRestController;
 use Twilio\Twiml;
-
-
 class TwilioController extends Controller
 {
     /**
@@ -32,7 +28,6 @@ class TwilioController extends Controller
         
         return new Response($response);
     }
-
     /**
      * @Route("/inbound", name="inbound_route")
      *
@@ -65,7 +60,6 @@ class TwilioController extends Controller
             $healthTip = $healthTipManager->getHealthTip($user->getAge());
             $response->say($healthTip, array("language" => "en-IN"));
             $response->redirect('/outbound', array("method"=>"GET"));
-
             return new Response($response);
         }
     }
