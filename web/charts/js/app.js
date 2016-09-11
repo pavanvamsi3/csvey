@@ -37,9 +37,9 @@ $(document).ready(function(){
             $("#repoDetails li").addClass('li-state');
 
 
-            //default choice
-            var repoChoice = 1
-            getRepoLanguages(showLangs, repoChoice);
+            // //default choice
+            // var repoChoice = 1
+            // getRepoLanguages(showLangs, repoChoice);
 
             // function when user clicks a repo choice
             $("#repoDetails").children().click(function(){
