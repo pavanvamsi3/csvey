@@ -28,13 +28,17 @@
             <button id="clear" class="mui-btn mui-btn--raised">Clear</button>
         </div>
 
-        <div style="display:flex;padding-left:20px;border-top:solid 1px #e7e7e7">
-             <div id="chart" style="flex:6;padding-top: 25px">
-            </div>
-            <div style="flex: 4;padding-top: 25px;border-radius: 1px;padding-right: 20px;background-color: #f5f5f5;padding-left:10px;">
+        <div style="display:flex;border-top:solid 1px #e7e7e7;flex-direction:column;">
+            <div style="flex: 4;border-radius: 1px;padding-right: 20px;background-color: #f5f5f5;padding-left:10px;padding-top: 10px;">
                 <p style="font-weight:bold;" >Your questions</p>
                 <ul id="repoDetails"></ul>
-            </div>   
+            </div>
+
+            <div style="display:flex;padding-left: 10px;">
+                <div id="chart" style="flex:2;padding-top: 25px"></div>
+                <div id="pie" style="flex:3">
+                </div>    
+            </div>  
         </div>
     </div>
 </body>

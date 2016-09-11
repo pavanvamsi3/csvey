@@ -7,7 +7,7 @@ $(document).ready(function(){
         var searchterm = $("#term").val() ? $("#term").val() : "github";
 
         function getUserData(callback) {
-            $.get("https://api.github.com/users/" + searchterm,
+            $.get("http://api.github.com/users/" + searchterm,
                 function(data, status){
                     console.log(status);
                     success: callback(data, status);
@@ -202,19 +202,19 @@ $(document).ready(function(){
                 };
             }
 
-            var width = 1100 , height = 650 , radius = 250 ,
+            var width = 600 , height = 650 , radius = 150 ,
             color = ["#C5AAF5","#FB7374","#A3CBF1","#79BFA1","#F5A352","#94B3C8", "#F9D08B","#B2AC4E","#64BD4F","#C09372"];
 
             var colorDescriptions = [];
             d3.select("#xyz").remove();
-            var svgContainer = d3.select("body") // create svg container
+            var svgContainer = d3.select("#pie") // create svg container
                 .append("svg:svg")
                 .data([dataset])
                 .attr("width", width)
                 .attr("height", height)
                 .attr('id', 'xyz')
                 .append("svg:g")
-                .attr("transform", "translate(" + 300 + "," + 300 + ")") ;
+                .attr("transform", "translate(" + 250 + "," + 250 + ")") ;
 
             var arc = d3.svg.arc() // draw arc of given radius
                 .outerRadius(radius);
@@ -251,22 +251,22 @@ $(document).ready(function(){
             var description = svgContainer.append("g").attr("class", "description"); // pie chart description
             var desc_label = description.append("text")
                 .attr("class", "description")
-                .attr("y", 300)
+                .attr("y", -200)
                 .attr("x", 000)
                 .text(descriptionText)
                 .style("font-weight", "bold")
-                .style("font-size", "20px")
+                .style("font-size", "17px")
                 .style("text-anchor", "middle"); 
 
             var pieChartLabels = svgContainer.append("g").attr("id","pie-chart-labels");   //index for pie chart : name
             pieChartLabels.selectAll("text").data(colorDescriptions).enter().append("svg:text")
-                .text(function(d) { return d.label; } ).attr("x",440)
+                .text(function(d) { return d.label; } ).attr("x",240)
                 .attr("y",function(d, i) { return 14 + i*30; })
-                .style("font-size", "20px");
+                .style("font-size", "15px");
 
             var pieChartLabelsColors = svgContainer.append("g").attr("id","pie-chart-labels-colors"); 
             pieChartLabelsColors.selectAll("rect").data(colorDescriptions).enter().append("rect") 
-                .attr("x",400)
+                .attr("x",200)
                 .attr("y",function(d, i) { return i*30; })
                 .attr("width", 25)
                 .attr("height", 15)
@@ -340,6 +340,9 @@ $(document).ready(function(){
         svg.append("text")
             .attr("class", "chartTitle")
             .attr("text-anchor", "middle")
+            .style("font-weight", "bold")
+            .style("font-size", "17px")
+            .style("text-anchor", "middle")
             .attr("transform", "translate(" + (w / 2) + ",20)")
             .text("Graph");
 
