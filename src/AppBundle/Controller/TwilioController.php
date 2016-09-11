@@ -77,9 +77,11 @@ class TwilioController extends Controller
     public function postStatusCallAction(Request $request)
     {
         $requestParams = $this->get('request')->request->all();
-        $f = fopen("newfile.txt", "w");
-        fwrite($f, json_encode($requestParams));
-        fclose($f);
+        if (isset($requestParams['Called']) && isset($requestParams['CallStatus']) &&
+            $requestParams['CallStatus'] == "completed") {
+            $twilioCallingManager = $this->get('twilio_calling_manager');
+            $twilioCallingManager->sendBalanceMessage($requestParams['Called']);
+        }
 
         return new Response(null);
     }
