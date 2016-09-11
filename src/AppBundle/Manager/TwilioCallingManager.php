@@ -42,7 +42,7 @@ class TwilioCallingManager
     {
         $user = $this->userManager->loadByPhoneNumber($phoneNumber);
         $messageText = "Thank you for your support, your current csvey account balance is ".
-            $user->getBalance() ." rupees".
+            $user->getBalance() ." rupees";
 
         $message = $this->twilio->messages->create(
           $phoneNumber, // Text this number
