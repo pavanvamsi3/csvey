@@ -6,8 +6,17 @@ $(document).ready(function(){
 
         var searchterm = $("#term").val() ? $("#term").val() : "github";
 
+        function getUserData(callback) {
+            $.get("https://api.github.com/users/" + searchterm,
+                function(data, status){
+                    console.log(status);
+                    success: callback(data, status);
+            });
+        };
+
         function getUserRepos(callback){
-            $.get("https://www-marker.practodev.com/surveyquestions/"+ searchterm,
+            //$.get("https://api.github.com/users/" + searchterm + "/repos",
+            $.get("http://www.practo.local/surveyquestions/"+ searchterm,
                 function(data, status){
                     console.log(status);
                     success: callback(data,status);
@@ -15,7 +24,8 @@ $(document).ready(function(){
         };
 
         function getRepoLanguages(callback,repo){
-            $.get("https://www-marker.practodev.com/surveyoptions/" + repo,
+            //$.get("https://api.github.com/repos/" + searchterm + "/" + repo + "/languages",
+            $.get("http://www.practo.local/surveyoptions/" + repo,
                 function(data, status){
                         console.log(status);
                         success: callback(data,status,repo);
@@ -34,15 +44,13 @@ $(document).ready(function(){
             for (var i = 0; i < data.length; i++) {
                 $("#repoDetails").append("<li id=" + data[i].id + ">" + data[i].question + "</li>");
             };
-            $("#repoDetails li").addClass('li-state');
-
-
-            // //default choice
-            // var repoChoice = 1
-            // getRepoLanguages(showLangs, repoChoice);
 
             // function when user clicks a repo choice
             $("#repoDetails").children().click(function(){
+
+                // Clear previous details
+                // $("#langDetails").children().remove();
+
                 // Get repo id
                 var repoChoice = (this.id)
                 getRepoLanguages(showLangs, repoChoice);
@@ -176,6 +184,94 @@ $(document).ready(function(){
                 d3.select("#tooltip").remove();
             });
 
+// Pie Chart from here
+            var metadata = {
+                'x' : 'name' ,
+                'y' : 'percent'
+            };
+            console.log(data);
+            var dataset = [];
+            var sum = 0;
+            for (var key in data) {
+                if (data.hasOwnProperty(key)) { // ensure it is key from data, not prototype being use
+                    var item = new Object();
+                    item.key = data[key].value;
+                    item.value = data[key].count;
+                    sum = sum + parseInt(data[key].count, 10);
+                    dataset.push(item);
+                };
+            }
+
+            var width = 1100 , height = 650 , radius = 250 ,
+            color = ["#C5AAF5","#FB7374","#A3CBF1","#79BFA1","#F5A352","#94B3C8", "#F9D08B","#B2AC4E","#64BD4F","#C09372"];
+
+            var colorDescriptions = [];
+            d3.select("#xyz").remove();
+            var svgContainer = d3.select("body") // create svg container
+                .append("svg:svg")
+                .data([dataset])
+                .attr("width", width)
+                .attr("height", height)
+                .attr('id', 'xyz')
+                .append("svg:g")
+                .attr("transform", "translate(" + 300 + "," + 300 + ")") ;
+
+            var arc = d3.svg.arc() // draw arc of given radius
+                .outerRadius(radius);
+
+            var pie = d3.layout.pie() // assign data for pie chart
+                .value(function(d) { return d.value; });
+
+            var arcs = svgContainer.selectAll("g.slice") // slice the circle
+                .data(pie)   
+                .enter()
+                .append("svg:g")
+                .attr("class", "slice");
+
+            arcs.append("svg:path") // fill color in each slice
+                .attr("fill", function(d, i) { 
+                var colorSelected =  color[i];
+                colorDescriptions.push({"colorSelected": colorSelected, "label": dataset[i].key});
+                return colorSelected; } )
+                .attr("d", arc)
+            arcs.append("svg:text") // write slice information values
+                .attr("transform", function(d) {
+                d.innerRadius = 0;
+                d.outerRadius = radius;
+                    return "translate(" + arc.centroid(d) + ")";
+                })
+                .attr("text-anchor", "middle")
+                .text(function(d, i) { return (Math.round(dataset[i].value*100/sum)) + '%'; })
+                .style("font-family","monospace")
+                .style("fill", "#3f3f3f")
+                .style("font-size", "20px");
+
+            descriptionText = "Pie Chart"; // pie chart description
+
+            var description = svgContainer.append("g").attr("class", "description"); // pie chart description
+            var desc_label = description.append("text")
+                .attr("class", "description")
+                .attr("y", 300)
+                .attr("x", 000)
+                .text(descriptionText)
+                .style("font-weight", "bold")
+                .style("font-size", "20px")
+                .style("text-anchor", "middle"); 
+
+            var pieChartLabels = svgContainer.append("g").attr("id","pie-chart-labels");   //index for pie chart : name
+            pieChartLabels.selectAll("text").data(colorDescriptions).enter().append("svg:text")
+                .text(function(d) { return d.label; } ).attr("x",440)
+                .attr("y",function(d, i) { return 14 + i*30; })
+                .style("font-size", "20px");
+
+            var pieChartLabelsColors = svgContainer.append("g").attr("id","pie-chart-labels-colors"); 
+            pieChartLabelsColors.selectAll("rect").data(colorDescriptions).enter().append("rect") 
+                .attr("x",400)
+                .attr("y",function(d, i) { return i*30; })
+                .attr("width", 25)
+                .attr("height", 15)
+                .style("fill" , function(d) { return d.colorSelected; }); //index for pie chart : color
+
         }; // end of the showLangs function
 
 
@@ -247,8 +343,6 @@ $(document).ready(function(){
             .attr("transform", "translate(" + (w / 2) + ",20)")
             .text("Graph");
 
-
-
     }); // end of search click function
 
     // respond to click on clear button
@@ -266,4 +360,7 @@ $(document).ready(function(){
         d3.selectAll("svg").remove(); // clear out chart
 
     };
+    var clearCanvas2 = function() {
+        d3.selectAll("svg").remove();
+    }
 });
