@@ -41,11 +41,10 @@ class TwilioController extends Controller
             $twilioCallingManager = $this->get('twilio_calling_manager');
             $twilioCallingManager->makeOutBoundCall($queryParams['From']);
         }
-        $response = new Twiml();
-        $response->say('Hello Patlola');
-        $response->play('https://api.twilio.com/cowbell.mp3', array("loop" => 5));
-        return new Response($response);
+
+        return new Response(null);
     }
+
     /**
      * @Route("/ageinformation", name="ageinformation")
      *
@@ -63,5 +62,21 @@ class TwilioController extends Controller
             $response->redirect('/outbound', array("method"=>"GET"));
             return new Response($response);
         }
+    }
+
+    /**
+     * @Route("/statuscallback", name="statuscallback")
+     *
+     */
+    public function postStatusCallAction(Request $request)
+    {
+        $requestParams = $this->get('request')->request->all();
+        if (isset($requestParams['Called']) && isset($requestParams['CallStatus']) &&
+            $requestParams['CallStatus'] == "completed") {
+            $twilioCallingManager = $this->get('twilio_calling_manager');
+            $twilioCallingManager->sendBalanceMessage($requestParams['Called']);
+        }
+
+        return new Response(null);
     }
 }
