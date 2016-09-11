@@ -26,7 +26,7 @@ class User
      *
      * @ORM\Column(name="age", type="integer")
      */
-    private $age;
+    private $age = -1;
 
     /**
      * @var string
@@ -39,6 +39,14 @@ class User
      * @ORM\OneToMany(targetEntity="UserSurvey", mappedBy="userId")
      */
     private $userSurveys;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="balance", type="integer")
+     */
+    private $balance;
+
 
     /**
      * Get id
@@ -96,6 +104,30 @@ class User
     public function getPhone()
     {
         return $this->phone;
+    }
+
+    /**
+     * Set balance
+     *
+     * @param integer $balance
+     *
+     * @return UserSurvey
+     */
+    public function setBalance($balance)
+    {
+        $this->balance = $balance;
+
+        return $this;
+    }
+
+    /**
+     * Get balance
+     *
+     * @return int
+     */
+    public function getBalance()
+    {
+        return $this->balance;
     }
 }
 

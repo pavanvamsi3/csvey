@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Csvey Visualtions</title>
+    <link href="css/stylesheet.css" rel="stylesheet" />
+    <link href="css/foundation.min.css" rel="stylesheet"  />
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/app.js" type="text/javascript"></script>
+    <script src="js/d3.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+<div class="row">
+  <div class="large-centered columns center-text">
+        <h2>Visualize your surveys</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="small-8 large-centered columns center-text">
+        <section id="fetch">
+            <div class="small-9 columns">
+                <input type="text" placeholder="Enter Company Name" id="term" />
+            </div>
+            <button id="search" class="button tiny radius">Search</button>
+            <button id="clear" class="button tiny radius">Clear</button>
+        </section>
+    </div>
+</div>
+
+<div class="row">
+    <div class="small-6 large-centered columns center-text" id="username">
+    </div>
+</div>
+
+<div class="row">
+    <div class="large-5 medium-5 small-12 columns">
+        <ol id="repoDetails"></ol>
+    </div>
+
+    <div class="large-7 medium-7 small-12 columns" id="chart">
+        <ol id="langDetails"></ol>
+    </div>
+</div>
+
+</body>
+</html>

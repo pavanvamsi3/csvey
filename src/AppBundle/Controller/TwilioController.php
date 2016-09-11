@@ -1,7 +1,5 @@
 <?php
-
 namespace AppBundle\Controller;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,8 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Twilio\Rest\Client;
 use FOS\RestBundle\Controller\FOSRestController;
 use Twilio\Twiml;
-
-
 class TwilioController extends Controller
 {
     /**
@@ -22,9 +18,15 @@ class TwilioController extends Controller
     {
         $queryParams = $this->get('request')->query->all();
         $twilioMessageManager = $this->get('twilio_message_manager');
-        $response = $twilioMessageManager->makeHomeMessage();
-        return $this->render('base.html.twig', array(
-       'name' => 'Fabien') );
+        $response = null;
+        if (isset($queryParams['Called'])) {
+            $userManager = $this->get('csvey_api.user_manager');
+            $userManager->add($queryParams);
+            
+            $response = $twilioMessageManager->makeHomeMessage();
+        }
+        
+        return new Response($response);
     }
     /**
      * @Route("/inbound", name="inbound_route")
@@ -43,6 +45,23 @@ class TwilioController extends Controller
         $response->say('Hello Patlola');
         $response->play('https://api.twilio.com/cowbell.mp3', array("loop" => 5));
         return new Response($response);
-
+    }
+    /**
+     * @Route("/ageinformation", name="ageinformation")
+     *
+     */
+    public function postAgeAction(Request $request)
+    {
+        $requestParams = $this->get('request')->request->all();
+        if (isset($requestParams['Digits']) && isset($requestParams['Called'])) {
+            $userManager = $this->get('csvey_api.user_manager');
+            $healthTipManager = $this->get('csvey_api.health_tip_manager');
+            $user = $userManager->updateAge($requestParams['Called'], $requestParams['Digits']);
+            $response = new Twiml();
+            $healthTip = $healthTipManager->getHealthTip($user->getAge());
+            $response->say($healthTip, array("language" => "en-IN"));
+            $response->redirect('/outbound', array("method"=>"GET"));
+            return new Response($response);
+        }
     }
 }
