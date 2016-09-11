@@ -141,15 +141,6 @@ rect:hover {
     height: 66px;
 }
 
-.add-question {
-    background: url('{{asset('bundles/framework/images/add-question.png') }}') scroll no-repeat left center;
-    padding: 2px 0px 2px 24px;
-    font-size: 12px;
-    font-weight: normal;
-    color: #0dc9d4;
-    margin-left: 3%;
-}
-
 .next-question {
     width: 150px;
 }
@@ -262,12 +253,4 @@ rect:hover {
     height: 50px;
 }
 
-.section-bottom-container .add-question {
-    background: url('add-question.png') scroll no-repeat left center;
-    padding: 2px 0px 2px 24px;
-    font-size: 12px;
-    font-weight: normal;
-    color: #0dc9d4;
-    margin-left: 3%;
-    text-decoration: none;
-}
+
