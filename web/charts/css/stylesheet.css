@@ -72,42 +72,6 @@ rect:hover {
     border-bottom: 1.5px solid #263345;
 }
 
-.input-container > input::-webkit-input-placeholder {
-    color: #263345;
-}
-
-.input-container > input:-moz-placeholder {
-    color: #263345;
-    opacity: 1;
-}
-
-.input-container > input::-moz-placeholder {
-    color: #263345;
-    opacity: 1;
-}
-
-.input-container > input:-ms-input-placeholder {
-    color: #263345;
-}
-
-.input-container > input:focus::-webkit-input-placeholder {
-    color: #e7e7e7;
-}
-
-.input-container > input:focus:-moz-placeholder {
-    color: #e7e7e7;
-    opacity: 1;
-}
-
-.input-container > input:focus::-moz-placeholder {
-    color: #e7e7e7;
-    opacity: 1;
-}
-
-.input-container > input:focus:-ms-input-placeholder {
-    color: #e7e7e7;
-}
-
 .radio-choice-icon {
     width: 15px;
     height: 15px;
