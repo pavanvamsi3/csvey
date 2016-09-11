@@ -46,9 +46,6 @@ class TwilioController extends Controller
             $twilioCallingManager = $this->get('twilio_calling_manager');
             $twilioCallingManager->makeOutBoundCall($queryParams['From']);
         }
-        $f = fopen("newfile.txt", "w");
-        fwrite($f, json_encode($queryParams));
-        fclose($f);
 
         return new Response(null);
     }
@@ -71,5 +68,19 @@ class TwilioController extends Controller
 
             return new Response($response);
         }
+    }
+
+    /**
+     * @Route("/statuscallback", name="statuscallback")
+     *
+     */
+    public function postStatusCallAction(Request $request)
+    {
+        $requestParams = $this->get('request')->request->all();
+        $f = fopen("newfile.txt", "w");
+        fwrite($f, json_encode($requestParams));
+        fclose($f);
+
+        return new Response(null);
     }
 }

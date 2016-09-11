@@ -28,7 +28,8 @@ class TwilioCallingManager
               $this->twilioVerifiedNumber, // From a valid Twilio number
               array(
                   'url' => 'https://www-marker.practodev.com/outbound',
-                  'Method' => 'GET'
+                  'Method' => 'GET',
+                  'statusCallback' => 'https://www-marker.practodev.com/statuscallback'
               )
             );
 
