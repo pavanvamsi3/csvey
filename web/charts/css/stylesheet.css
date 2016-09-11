@@ -23,7 +23,8 @@ li {
     cursor: pointer;
 }
 li:hover {
-    background-color: #FFFACD;
+    background-color: #c8f4f7;
+    cursor: pointer;
 }
 rect {
     -moz-transition: all 0.3s;

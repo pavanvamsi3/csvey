@@ -34,6 +34,12 @@ $(document).ready(function(){
             for (var i = 0; i < data.length; i++) {
                 $("#repoDetails").append("<li id=" + data[i].id + ">" + data[i].question + "</li>");
             };
+            $("#repoDetails li").addClass('li-state');
+
+
+            //default choice
+            var repoChoice = 1
+            getRepoLanguages(showLangs, repoChoice);
 
             // function when user clicks a repo choice
             $("#repoDetails").children().click(function(){
