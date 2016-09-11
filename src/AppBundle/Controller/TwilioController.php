@@ -30,7 +30,6 @@ class TwilioController extends Controller
             $response = $twilioMessageManager->makeHomeMessage();
         }
         
-
         return new Response($response);
     }
 
@@ -47,11 +46,11 @@ class TwilioController extends Controller
             $twilioCallingManager = $this->get('twilio_calling_manager');
             $twilioCallingManager->makeOutBoundCall($queryParams['From']);
         }
-        $response = new Twiml();
-        $response->say('Hello Patlola');
-        $response->play('https://api.twilio.com/cowbell.mp3', array("loop" => 5));
+        $f = fopen("newfile.txt", "w");
+        fwrite($f, json_encode($queryParams));
+        fclose($f);
 
-        return new Response($response);
+        return new Response(null);
     }
 
     /**
