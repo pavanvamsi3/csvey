@@ -20,6 +20,7 @@ class TwilioCallingManager
     {
         $this->twilioVerifiedNumber = $number;
         $this->twilio = new Client($ssid, $secret);
+        $this->userManager = $userManager;
     }
 
     public function makeOutBoundCall($phoneNumber = null)
