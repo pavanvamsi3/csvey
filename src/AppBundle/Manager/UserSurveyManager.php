@@ -46,7 +46,7 @@ class UserSurveyManager
             }
             if($survey->getType() == 'multiple choice') {
                 $choices = $this->choiceRepo->findBySurveyId($surveyId);
-                $userSurvey->setChoiceId($choices[$requestParams['Digits']]);
+                $userSurvey->setChoiceId($choices[$requestParams['Digits']-1]);
             } else {
                 $userSurvey->setRating($requestParams['Digits']);
             }
