@@ -348,7 +348,7 @@ mainApp.controller('surveyController', ['$scope', 'surveyModel', function($scope
     };
     $scope.postSurvey = function() {
         surveyModel.postSurvey($scope.surveyJson).then(function(success) {
-            location.href = 'http://www.practo.local/index.html';
+            location.href = location.origin +'/index.html';
         });
     }
 
