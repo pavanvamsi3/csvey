@@ -18,6 +18,6 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    twilio_ssid : ~
-    twilio_secret : ~
-    twilio_verified_number : +12012317735
+    twilio_ssid : twilio_ssid
+    twilio_secret : twilio_secret //you can get this from your trial twilio account
+    twilio_verified_number : twilio_verified_number
